@@ -1,40 +1,30 @@
 import { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { momentLocalizer, Calendar } from 'react-big-calendar';
 import moment from 'moment';
 
-import { Navbar } from "../ui/Navbar";
 import { messages } from '../../helpers/calendar-messages-es';
 import { CalendarEvent } from './CalendarEvent';
 import { CalendarModal } from './CalendarModal';
 import { uiOpenModal } from '../../redux/actions/ui';
+import { eventActiveEvent, eventClearActiveEvent } from '../../redux/actions/events';
+import { Navbar } from "../ui/Navbar";
+import { AddNewFab } from '../ui/AddNewFab';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
-import { eventActiveEvent } from '../../redux/actions/events';
-import { AddNewFab } from '../ui/AddNewFab';
+import { DeleteEventFab } from '../ui/DeleteEventFab';
 
 moment.locale('es');
 
 const localizer = momentLocalizer(moment) // or globalizeLocalizer
 
-const myEventsList = [{
-    title: 'Cumpleaños del jefe',
-    start: moment().toDate(),
-    end: moment().add( 2, 'hours').toDate(),
-    bgcolor: '#f56954',
-    notes: 'Comprar torta',
-    user:{
-        _id: '123',
-        name: 'Juan'
-    }
-    // borderColor: '#f56954'
-    // allDay: true,
-}];   
 
 const CalendarScreen = () => {
 
     const dispatch = useDispatch();
+    // @ts-ignore
+    const { events, activeEvent } = useSelector( state => state.calendar );
 
     const [ lastView, setLastview ] = useState( localStorage.getItem('calendarView') || 'month' );
 
@@ -45,11 +35,11 @@ const CalendarScreen = () => {
 
     const onSelectEvent = (e) => {
         dispatch( eventActiveEvent(e))
-        dispatch( uiOpenModal() );
     };
 
     const onSelectSlot = (e) => {
-        console.log(e);
+        dispatch( eventClearActiveEvent() );
+        // console.log(e);
     }
 
     const onViewChange = (e) => {
@@ -58,7 +48,6 @@ const CalendarScreen = () => {
     }
 
     const eventStyleGetter = ( event, start, end, isSelected ) => {
-
         let style = {
             backgroundColor: '#367CF7',
             borderRadius: '0px',
@@ -76,7 +65,7 @@ const CalendarScreen = () => {
 
             <Calendar
                 localizer={ localizer }
-                events={ myEventsList }
+                events={ events }
                 startAccessor="start"
                 endAccessor="end"
                 messages={ messages }
@@ -85,6 +74,7 @@ const CalendarScreen = () => {
                 onSelectEvent={ onSelectEvent }
                 onView={ onViewChange }
                 onSelectSlot={ onSelectSlot }
+                selectable={ true }
                 // @ts-ignore
                 view={ lastView }
                 components={ { event: CalendarEvent } }
@@ -94,6 +84,7 @@ const CalendarScreen = () => {
             
             <AddNewFab />
 
+            { activeEvent && <DeleteEventFab /> }
 
         </div>
     )

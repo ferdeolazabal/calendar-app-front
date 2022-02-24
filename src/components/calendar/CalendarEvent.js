@@ -2,7 +2,6 @@ import React from 'react'
 
 export const CalendarEvent = ( { event } ) => {
 
-    // console.log( event );
     const { title, notes, user } = event;
 
     return (

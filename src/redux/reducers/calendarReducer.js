@@ -3,6 +3,7 @@ import { types } from "../types/types";
 
 const initialState = {
     events: [{
+        id: new Date().getTime(),
         title: 'Cumpleaños del jefe',
         start: moment().toDate(),
         end: moment().add( 2, 'hours').toDate(),
@@ -10,7 +11,7 @@ const initialState = {
         notes: 'Comprar torta',
         user:{
             _id: '123',
-            name: 'Juan'
+            name: 'Fernando'
         }
     }],
     activeEvent: null
@@ -31,21 +32,29 @@ export const calendarReducer = (state = initialState, action) => {
                 ...state,
                 events: [ ...state.events, action.payload ]
             };
-        // case 'REMOVE_EVENT':
-            // return {
-            //     ...state,
-            //     events: state.events.filter(event => event.id !== action.payload)
-            // };
-        // case 'UPDATE_EVENT':
-            // return {
-            //     ...state,
-            //     events: state.events.map(event => {
-            //     if (event.id === action.payload.id) {
-            //         return action.payload;
-            //     }
-            //     return event;
-            //     })
-            // };
+        
+        case types.eventClearActiveEvent:
+            return {
+                ...state,
+                activeEvent: null
+            }
+        
+        case types.eventUpdateEvent:
+        return {
+            ...state,
+            events: state.events.map(event => (
+            ( event.id === action.payload.id ) ? action.payload : event
+            ))
+        };
+        
+        case types.eventDeleteEvent:
+            return {
+                ...state,
+                // @ts-ignore
+                events: state.events.filter(event => (event.id !== state.activeEvent.id)),
+                activeEvent: null
+            };
+        
         default:
             return state;
     }
