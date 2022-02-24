@@ -6,6 +6,7 @@ import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from "sweetalert2"; 
 import { uiCloseModal } from "../../redux/actions/ui";
+import { eventAddNew } from "../../redux/actions/events";
 
 
 const customStyles = {
@@ -29,9 +30,7 @@ export const CalendarModal = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { modalOpen } = useSelector( state => state.ui );
-    console.log(modalOpen);
 
-    // const [ isOpen, setIsOpen ] = useState( true );
     const [ startDate, setStartDate ] = useState( dateNow.toDate() );
     const [ EndDate, setEndDate ] = useState( endDate.toDate() );
 
@@ -52,7 +51,6 @@ export const CalendarModal = () => {
     };
 
     const closeModal = () => {
-        console.log('closeModal...')
         dispatch( uiCloseModal() );
     };
 
@@ -74,7 +72,6 @@ export const CalendarModal = () => {
 
     const handleSubmitForm = ( e ) => {
         e.preventDefault();
-        // console.log(formValues);
 
         if( start >= end ){
             return Swal.fire({
@@ -89,7 +86,23 @@ export const CalendarModal = () => {
                 text: 'El título del evento debe tener al menos 2 caracteres!',
                 icon: 'info',
             })
-        }
+        };
+
+        dispatch( eventAddNew({
+            ...formValues,
+            id: new Date().getTime(),
+            user: { id: '123', name: 'Juan' }
+        }) );
+
+        setFormValues({
+            title: '',
+            notes: '',
+            start: dateNow.toDate(),
+            end: endDate.toDate(),
+        });
+        
+        closeModal();
+
     };
 
 

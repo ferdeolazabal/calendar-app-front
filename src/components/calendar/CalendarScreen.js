@@ -11,6 +11,8 @@ import { uiOpenModal } from '../../redux/actions/ui';
 
 import 'react-big-calendar/lib/css/react-big-calendar.css';
 import 'moment/locale/es';
+import { eventActiveEvent } from '../../redux/actions/events';
+import { AddNewFab } from '../ui/AddNewFab';
 
 moment.locale('es');
 
@@ -38,12 +40,12 @@ const CalendarScreen = () => {
 
 
     const onDoubleClick = (e) => {
-        // console.log(e);
         dispatch( uiOpenModal() );
     };
 
     const onSelectEvent = (e) => {
-        // console.log(e);
+        dispatch( eventActiveEvent(e))
+        dispatch( uiOpenModal() );
     };
 
     const onSelectSlot = (e) => {
@@ -89,6 +91,9 @@ const CalendarScreen = () => {
             />
 
             <CalendarModal />
+            
+            <AddNewFab />
+
 
         </div>
     )
