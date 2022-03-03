@@ -93,3 +93,16 @@ html, body{
     position: fixed;
     left: 25px;
 }
+
+/* loading */
+
+.nothing__main-content{
+    align-items: center;
+    background-color: #5C62C5;;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 100vh;
+    
+}
