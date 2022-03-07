@@ -4,11 +4,15 @@ export const types = {
     uiOpenModal:  '[ui] Open modal',
     uiCloseModal: '[ui] Close modal',
 
+    eventStartAddNew:      '[calendar] Start add event',
     eventAddNew:           '[calendar] Add event',
     eventActiveEvent:      '[calendar] Active event',
     eventClearActiveEvent: '[calendar] Clear active event',
     eventUpdateEvent:      '[calendar] Update event',
     eventDeleteEvent:      '[calendar] Delete event',
+    eventLoaded:           '[calendar] Load events',
+    eventClearEvents:      '[calendar] Clear events',
+
     
     authCheckingFinish:    '[auth] Finish Checking Login State',
     authIsAuthenticated:   '[auth] Is authenticated',
@@ -18,14 +22,5 @@ export const types = {
     authStartRegister:     '[auth] Start Register',
     authStartTokenRenew:   '[auth] Start Token Renew',
     authLogout:            '[auth] Logout',
-
-    
-    authSetUser:           '[auth] Set user',
-    authClearUser:         '[auth] Clear user',
-    authClearToken:        '[auth] Clear token',
-    authSetError:          '[auth] Set error',
-    authClearError:        '[auth] Clear error',
-
-
 
 };

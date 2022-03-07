@@ -6,7 +6,7 @@ import DateTimePicker from 'react-datetime-picker';
 import moment from 'moment';
 import Swal from "sweetalert2"; 
 import { uiCloseModal } from "../../redux/actions/ui";
-import { eventAddNew, eventClearActiveEvent, eventUpdateEvent } from "../../redux/actions/events";
+import { eventClearActiveEvent, eventStartUpdate, startAddNewEvent } from "../../redux/actions/events";
 
 
 const customStyles = {
@@ -102,14 +102,10 @@ export const CalendarModal = () => {
         };
         // update event
         if( activeEvent ){
-            dispatch( eventUpdateEvent( formValues ) );
+            dispatch( eventStartUpdate( formValues ) );
         
         } else { // add new event
-            dispatch( eventAddNew({
-                ...formValues,
-                id: new Date().getTime(),
-                user: { id: '123', name: 'Juan' }
-            }) );
+            dispatch( startAddNewEvent( formValues ) );
         };
         closeModal();
     };

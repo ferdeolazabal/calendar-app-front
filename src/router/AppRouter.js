@@ -17,7 +17,7 @@ export const AppRouter = () => {
     const dispatch = useDispatch();
     // @ts-ignore
     const { checking } = useSelector( state => state.auth );
-    console.log(checking);
+
     useEffect(() => {
         dispatch( startChecking() );
     }, [  dispatch ] )
